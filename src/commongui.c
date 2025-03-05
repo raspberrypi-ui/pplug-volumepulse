@@ -306,6 +306,34 @@ void popup_window_show (VolumePulsePlugin *vol, gboolean input_control)
     wrap_popup_at_button (vol, vol->popup_window[index], vol->plugin[index]);
 }
 
+static gboolean hide_popup (VolumePulsePlugin *vol)
+{
+#ifdef LXPLUG
+    close_widget (&vol->popup_window[0]);
+#else
+    close_popup ();
+#endif
+    vol->popup_timer = 0;
+    return FALSE;
+}
+
+void popup_window_show_timed (VolumePulsePlugin *vol)
+{
+#ifdef LXPLUG
+    close_widget (&vol->popup_window[1]);
+#endif
+    if (!vol->popup_window[0])
+    {
+        popup_window_show (vol, FALSE);
+        vol->popup_timer = g_timeout_add (1000, G_SOURCE_FUNC (hide_popup), vol);
+    }
+    else if (vol->popup_timer)
+    {
+        g_source_remove (vol->popup_timer);
+        vol->popup_timer = g_timeout_add (1000, G_SOURCE_FUNC (hide_popup), vol);
+    }
+}
+
 /* Handler for "value_changed" signal on popup window vertical scale */
 
 static void popup_window_scale_changed_vol (GtkRange *range, VolumePulsePlugin *vol)

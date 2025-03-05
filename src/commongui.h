@@ -45,6 +45,7 @@ extern void menu_set_alsa_device_input (GtkWidget *widget, VolumePulsePlugin *vo
 extern void menu_set_bluetooth_device_input (GtkWidget *widget, VolumePulsePlugin *vol);
 
 extern void popup_window_show (VolumePulsePlugin *vol, gboolean input_control);
+extern void popup_window_show_timed (VolumePulsePlugin *vol);
 
 extern void volumepulse_mouse_scrolled (GtkScale *scale, GdkEventScroll *evt, VolumePulsePlugin *vol);
 extern void micpulse_mouse_scrolled (GtkScale *scale, GdkEventScroll *evt, VolumePulsePlugin *vol);

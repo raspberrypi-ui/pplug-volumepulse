@@ -227,6 +227,7 @@ gboolean volumepulse_control_msg (VolumePulsePlugin *vol, const char *cmd)
     {
         pulse_set_mute (vol, pulse_get_mute (vol, FALSE) ? 0 : 1, FALSE);
         update_display (vol, FALSE);
+        popup_window_show_timed (vol);
         return TRUE;
     }
 
@@ -245,6 +246,7 @@ gboolean volumepulse_control_msg (VolumePulsePlugin *vol, const char *cmd)
             pulse_set_volume (vol, volume, FALSE);
         }
         update_display (vol, FALSE);
+        popup_window_show_timed (vol);
         return TRUE;
     }
 
@@ -263,6 +265,7 @@ gboolean volumepulse_control_msg (VolumePulsePlugin *vol, const char *cmd)
             pulse_set_volume (vol, volume, FALSE);
         }
         update_display (vol, FALSE);
+        popup_window_show_timed (vol);
         return TRUE;
     }
 

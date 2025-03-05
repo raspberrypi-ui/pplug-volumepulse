@@ -70,6 +70,7 @@ typedef struct
     guint volume_scale_handler[2];      /* Handler for volume_scale widget */
     guint mute_check_handler[2];        /* Handler for mute_check widget */
     gboolean separator;                 /* Flag to show whether a menu separator has been added */
+    guint popup_timer;
 
     /* HDMI devices */
     char *hdmi_names[2];                /* Display names of HDMI devices */
