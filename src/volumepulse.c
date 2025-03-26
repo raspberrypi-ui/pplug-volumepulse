@@ -138,6 +138,26 @@ static void hdmi_init (VolumePulsePlugin *vol)
     }
 }
 
+/* Check for pipewire or pulseaudio */
+
+gboolean check_pipewire (gpointer data)
+{
+    VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
+    if (!system ("systemctl --user -q is-active pipewire-pulse.service")) vol->pipewire = 1;
+    else vol->pipewire = 0;
+
+    if (vol->pipewire)
+    {
+        DEBUG ("using pipewire");
+    }
+    else
+    {
+        DEBUG ("using pulseaudio");
+    }
+
+    return FALSE;
+}
+
 /*----------------------------------------------------------------------------*/
 /* wf-panel plugin functions                                                  */
 /*----------------------------------------------------------------------------*/
@@ -331,18 +351,13 @@ void volumepulse_init (VolumePulsePlugin *vol)
     vol->hdmi_names[0] = NULL;
     vol->hdmi_names[1] = NULL;
 
-    vol->pipewire = !system ("ps ax | grep pipewire-pulse | grep -qv grep");
-    if (vol->pipewire)
-    {
-        DEBUG ("using pipewire");
-    }
-    else
-    {
-        DEBUG ("using pulseaudio");
-    }
+    vol->pipewire = -1;
+    g_idle_add (check_pipewire, vol);
 
     /* Delete any old ALSA config */
-    vsystem ("rm -f ~/.asoundrc");
+    char *asf = g_strdup_printf ("%s/.asoundrc", getenv ("HOME"));
+    remove (asf);
+    g_free (asf);
 
     /* Find HDMIs */
     hdmi_init (vol);

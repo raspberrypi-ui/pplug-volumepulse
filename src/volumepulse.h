@@ -51,7 +51,7 @@ typedef struct
 #endif
 
     gboolean wizard;                    /* Used in wizard? */
-    gboolean pipewire;                  /* Pipewire running? */
+    int pipewire;                       /* Pipewire running? */
     gboolean popup_shown;
 
     /* graphics */
@@ -109,6 +109,7 @@ extern void volumepulse_init (VolumePulsePlugin *vol);
 extern void volumepulse_update_display (VolumePulsePlugin *vol);
 extern gboolean volumepulse_control_msg (VolumePulsePlugin *vol, const char *cmd);
 extern void volumepulse_destructor (gpointer user_data);
+extern gboolean check_pipewire (gpointer data);
 
 /* End of file */
 /*----------------------------------------------------------------------------*/

@@ -479,6 +479,8 @@ void bluetooth_set_output (VolumePulsePlugin *vol, const char *name, const char 
 {
     char *pacard;
 
+    if (vol->pipewire == -1) check_pipewire (vol);
+
     if (bt_is_connected (vol, name))
     {
         DEBUG ("Bluetooth output device already connected");
@@ -522,6 +524,8 @@ void bluetooth_set_output (VolumePulsePlugin *vol, const char *name, const char 
 void bluetooth_set_input (VolumePulsePlugin *vol, const char *name, const char *label)
 {
     char *pacard;
+
+    if (vol->pipewire == -1) check_pipewire (vol);
 
     if (bt_is_connected (vol, name))
     {
