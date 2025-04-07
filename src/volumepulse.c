@@ -1,5 +1,5 @@
 /*============================================================================
-Copyright (c) 2020-2025 Raspberry Pi Holdings Ltd.
+Copyright (c) 2020-2025 Raspberry Pi
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -368,10 +368,7 @@ void volumepulse_init (VolumePulsePlugin *vol)
     /* Set up Bluez D-Bus interface */
     bluetooth_init (vol);
 
-    /* Show the widget and return */
-    gtk_widget_show_all (vol->plugin[0]);
-    gtk_widget_show_all (vol->plugin[1]);
-
+    /* Show the initial state of the widget */
     volumepulse_update_display (vol);
 }
 

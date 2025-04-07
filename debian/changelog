@@ -1,3 +1,9 @@
+pplug-volumepulse (0.31) bookworm; urgency=medium
+
+  * Set initial state of icon correctly
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 07 Apr 2025 14:39:23 +0100
+
 pplug-volumepulse (0.30) bookworm; urgency=medium
 
   * Optimise startup
