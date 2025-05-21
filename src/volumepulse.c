@@ -48,6 +48,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Global data                                                                */
 /*----------------------------------------------------------------------------*/
 
+conf_table_t conf_table[1] = {
+    {CONF_TYPE_NONE, NULL, NULL, NULL}
+};
+
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
 /*----------------------------------------------------------------------------*/
@@ -459,7 +463,7 @@ FM_DEFINE_MODULE (lxpanel_gtk, volumepulse)
 /* Plugin descriptor */
 LXPanelPluginInit fm_module_init_lxpanel_gtk =
 {
-    .name = N_("Volume Control (PulseAudio)"),
+    .name = N_(PLUGIN_TITLE),
     .description = N_("Display and control volume for PulseAudio"),
     .new_instance = volumepulse_constructor,
     .reconfigure = volumepulse_configuration_changed,

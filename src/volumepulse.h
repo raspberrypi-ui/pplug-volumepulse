@@ -29,6 +29,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* Typedefs and macros                                                        */
 /*----------------------------------------------------------------------------*/
 
+#define PLUGIN_TITLE "Volume"
+
 #define DEBUG_ON
 #ifdef DEBUG_ON
 #define DEBUG(fmt,args...) if(getenv("DEBUG_VP"))g_message("vp: " fmt,##args)
@@ -46,7 +48,6 @@ typedef struct
     GtkWidget *box;                     /* Box to hold both plugin widgets */
 #else
     int icon_size;                      /* Variables used under wf-panel */
-    gboolean bottom;
     GtkGesture *gesture[2];
 #endif
 
@@ -100,6 +101,8 @@ typedef struct
     guint bt_retry_timer;               /* Timer for retrying post-connection events */
     gboolean bt_card_found;
 } VolumePulsePlugin;
+
+extern conf_table_t conf_table[1];
 
 /*----------------------------------------------------------------------------*/
 /* Prototypes                                                                 */
