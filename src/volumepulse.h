@@ -47,7 +47,6 @@ typedef struct
     config_setting_t *settings;         /* Plugin settings */
     GtkWidget *box;                     /* Box to hold both plugin widgets */
 #else
-    int icon_size;                      /* Variables used under wf-panel */
     GtkGesture *gesture[2];
 #endif
 

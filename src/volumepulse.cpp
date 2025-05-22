@@ -38,12 +38,6 @@ extern "C" {
     const char *package_name (void) { return GETTEXT_PACKAGE; };
 }
 
-void WayfireVolumepulse::icon_size_changed_cb (void)
-{
-    vol->icon_size = icon_size;
-    volumepulse_update_display (vol);
-}
-
 void WayfireVolumepulse::command (const char *cmd)
 {
     volumepulse_control_msg (vol, cmd);
@@ -69,14 +63,10 @@ void WayfireVolumepulse::init (Gtk::HBox *container)
     vol = g_new0 (VolumePulsePlugin, 1);
     vol->plugin[0] = (GtkWidget *)((*plugin_vol).gobj());
     vol->plugin[1] = (GtkWidget *)((*plugin_mic).gobj());
-    vol->icon_size = icon_size;
     icon_timer = Glib::signal_idle().connect (sigc::mem_fun (*this, &WayfireVolumepulse::set_icon));
 
     /* Initialise the plugin */
     volumepulse_init (vol);
-
-    /* Setup callbacks */
-    icon_size.set_callback (sigc::mem_fun (*this, &WayfireVolumepulse::icon_size_changed_cb));
 }
 
 WayfireVolumepulse::~WayfireVolumepulse()
