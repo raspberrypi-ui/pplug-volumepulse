@@ -9,3 +9,4 @@ src/volumepulse.c
 src/volumepulse.cpp
 src/volumepulse.h
 src/volumepulse.hpp
+[type: gettext/glade] data/lxplug-volumepulse.ui
