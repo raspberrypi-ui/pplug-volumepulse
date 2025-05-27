@@ -1,3 +1,9 @@
+pplug-volumepulse (0.32) trixie; urgency=medium
+
+  * Modify for lxpanel-pi
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 27 May 2025 07:38:02 +0100
+
 pplug-volumepulse (0.31) bookworm; urgency=medium
 
   * Set initial state of icon correctly
