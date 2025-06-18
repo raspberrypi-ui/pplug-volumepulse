@@ -11,13 +11,13 @@ Build-Depends:
 Standards-Version: 4.5.1
 Homepage: http://raspberrypi.com/
 
-Package: lxplug-volumepulse
+Package: lpplug-volumepulse
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
  lxpanel-pi
 Recommends: pulseaudio, pipewire, pipewire-pulse, pi-bluetooth, pulseaudio-module-bluetooth, libspa-0.2-bluetooth
-Description: PulseAudio controller plugin for lxpanel
- Plugin for lxpanel to use PulseAudio to control ALSA and Bluetooth devices.
+Description: PulseAudio controller plugin for lxpanel-pi
+ Plugin for lxpanel-pi to use PulseAudio to control ALSA and Bluetooth devices.
 
 Package: wfplug-volumepulse
 Architecture: any
