@@ -1,0 +1,121 @@
+# English translations for wf-panel-pi package.
+# Copyright (C) 2024 Raspberry Pi Ltd
+# This file is distributed under the same license as the wf-panel-pi package.
+# Simon Long <simon@raspberrypi.com>, 2024.
+# ykla <yklaxds@gmail.com>, 2025
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-20 07:54+0000\n"
+"PO-Revision-Date: 2025-08-23 15:08+0800\n"
+"Last-Translator: ykla <yklaxds@gmail.com>\n"
+"Language-Team: ykla <yklaxds@gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.7\n"
+
+#: ../src/bluetooth.c:188 ../src/bluetooth.c:348
+#, c-format
+msgid "Bluetooth %s device not found"
+msgstr "未找到蓝牙设备 %s"
+
+#. update dialog to show a warning
+#: ../src/bluetooth.c:239
+msgid "Audio device not found"
+msgstr "未找到音频设备"
+
+#: ../src/bluetooth.c:255
+#, c-format
+msgid "Could not set profile for device : %s"
+msgstr "无法为设备设置配置文件：%s"
+
+#: ../src/bluetooth.c:299
+#, c-format
+msgid "Could not change %s to device : %s"
+msgstr "无法将 %1$s 更改为设备：%2$s"
+
+#: ../src/bluetooth.c:415
+#, c-format
+msgid "Failed to connect to Bluetooth device - %s"
+msgstr "无法连接到蓝牙设备——%s"
+
+#: ../src/bluetooth.c:507 ../src/bluetooth.c:552
+msgid "Could not set device as output"
+msgstr "无法将设备设置为输出"
+
+#: ../src/bluetooth.c:513
+#, c-format
+msgid "Connecting Bluetooth device '%s' as output..."
+msgstr "把接入的蓝牙设备 '%s' 作为输出设备……"
+
+#: ../src/bluetooth.c:558
+#, c-format
+msgid "Connecting Bluetooth device '%s' as input..."
+msgstr "把接入的蓝牙设备 '%s' 作为输入设备……"
+
+#: ../src/commongui.c:139
+msgid "AV Jack"
+msgstr "AV 插口"
+
+#. Create a check button as the child of the vertical box.
+#: ../src/commongui.c:195
+msgid "Mute"
+msgstr "静音"
+
+#: ../src/commongui.c:282
+msgid "No audio devices found"
+msgstr "未找到音频设备"
+
+#: ../src/commongui.c:393
+msgid "Device Profiles"
+msgstr "设备配置文件"
+
+#: ../src/commongui.c:419
+msgid "_OK"
+msgstr "确定(_O)"
+
+#: ../src/commongui.c:451
+msgid "Device not connected"
+msgstr "设备未连接"
+
+#: ../src/volumepulse.c:140
+msgid "HDMI"
+msgstr "HDMI"
+
+#: ../src/volumepulse.c:159
+msgid "Device Profiles..."
+msgstr "设备配置文件……"
+
+#: ../src/volumepulse.c:194
+msgid "Input from this device not available in the current profile"
+msgstr "当前配置文件不支持此设备的输入"
+
+#: ../src/volumepulse.c:199
+msgid "Output to this device not available in the current profile"
+msgstr "当前配置下无法将输出发送到此设备。"
+
+#. update tooltip
+#: ../src/volumepulse.c:400
+msgid "Mic volume"
+msgstr "麦克风音量"
+
+#: ../src/volumepulse.c:400
+msgid "Volume control"
+msgstr "音量控制"
+
+#: ../src/volumepulse.c:631
+msgid "Volume Control (PulseAudio)"
+msgstr "音量控制（PulseAudio）"
+
+#: ../src/volumepulse.c:632
+msgid "Display and control volume for PulseAudio"
+msgstr "显示和控制 PulseAudio 的音量"
+
+#: ../src/volumepulse.cpp:40
+msgid "Volume"
+msgstr "音量"
