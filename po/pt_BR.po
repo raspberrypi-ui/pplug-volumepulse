@@ -1,0 +1,128 @@
+# Brazilian Portuguese translations for plugin package.
+# Copyright (C) 2025 Raspberry Pi
+# This file is distributed under the same license as the wf-panel-pi package.
+# Eduardo Addad de Oliveira <eduardo@addadtech.com.br>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-23 10:36+0100\n"
+"PO-Revision-Date: 2025-10-07 19:23-0300\n"
+"Last-Translator: Eduardo Addad de Oliveira <eduardo@addadtech.com.br>\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.7\n"
+
+#: ../src/bluetooth.c:188 ../src/bluetooth.c:348
+#, c-format
+msgid "Bluetooth %s device not found"
+msgstr "Dispositivo Bluetooth %s não encontrado"
+
+#. update dialog to show a warning
+#: ../src/bluetooth.c:239
+msgid "Audio device not found"
+msgstr "Dispositivo de áudio não encontrado"
+
+#: ../src/bluetooth.c:255
+#, c-format
+msgid "Could not set profile for device : %s"
+msgstr "Não foi possível definir o perfil para o dispositivo : %s"
+
+#: ../src/bluetooth.c:299
+#, c-format
+msgid "Could not change %s to device : %s"
+msgstr "Não foi possível alterar %s para o dispositivo: %s"
+
+#: ../src/bluetooth.c:415
+#, c-format
+msgid "Failed to connect to Bluetooth device - %s"
+msgstr "Falha ao conectar ao dispositivo Bluetooth - %s"
+
+#: ../src/bluetooth.c:509 ../src/bluetooth.c:556
+msgid "Could not set device as output"
+msgstr "Não foi possível definir o dispositivo como saída"
+
+#: ../src/bluetooth.c:515
+#, c-format
+msgid "Connecting Bluetooth device '%s' as output..."
+msgstr "Conectando dispositivo Bluetooth '%s' como saída..."
+
+#: ../src/bluetooth.c:562
+#, c-format
+msgid "Connecting Bluetooth device '%s' as input..."
+msgstr "Conectando dispositivo Bluetooth '%s' como entrada..."
+
+#: ../src/commongui.c:143
+msgid "AV Jack"
+msgstr "Conector AV"
+
+#. update tooltip
+#: ../src/commongui.c:206
+msgid "Mic volume"
+msgstr "Volume do microfone"
+
+#: ../src/commongui.c:206
+msgid "Volume control"
+msgstr "Controle de volume"
+
+#. Create a check button as the child of the vertical box.
+#: ../src/commongui.c:299
+msgid "Mute"
+msgstr "Silenciar"
+
+#: ../src/commongui.c:427
+msgid "No audio devices found"
+msgstr "Sem dispositivos de áudios encontrados"
+
+#: ../src/commongui.c:442
+msgid "Device Profiles..."
+msgstr "Perfis do dispositivo..."
+
+#: ../src/commongui.c:478
+msgid "Input from this device not available in the current profile"
+msgstr "Entrada deste dispositivo não disponível no perfil atual"
+
+#: ../src/commongui.c:483
+msgid "Output to this device not available in the current profile"
+msgstr "A entrada para esse dispositivo não está disponível no perfil atual"
+
+#: ../src/commongui.c:617
+msgid "Device Profiles"
+msgstr "Perfis do dispositivo"
+
+#: ../src/commongui.c:643 ../data/lxplug-volumepulse.ui.h:3
+msgid "_OK"
+msgstr "_OK"
+
+#: ../src/commongui.c:675
+msgid "Device not connected"
+msgstr "Dispositivo não conectado"
+
+#: ../src/volumepulse.c:141
+msgid "HDMI"
+msgstr "HDMI"
+
+#: ../src/volumepulse.c:468
+msgid "Display and control volume for PulseAudio"
+msgstr "Mostrar e controlar o volume do PulseAudio"
+
+#: ../src/volumepulse.h:32
+msgid "Volume"
+msgstr "Volume"
+
+#: ../data/lxplug-volumepulse.ui.h:1
+msgid "label"
+msgstr "rótulo"
+
+#: ../data/lxplug-volumepulse.ui.h:2
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: ../data/lxplug-volumepulse.ui.h:4
+msgid "Connecting..."
+msgstr "Conectando..."
