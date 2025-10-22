@@ -177,6 +177,9 @@ static gboolean button_release (GtkWidget *, GdkEventButton *event, VolumePulseP
     {
         case 1: /* left-click - show volume popup */
                 if (!vol->popup_shown) popup_window_show (vol, input);
+#ifndef LXPLUG
+                else close_popup ();
+#endif
                 update_display (vol, input);
                 return FALSE;
 
