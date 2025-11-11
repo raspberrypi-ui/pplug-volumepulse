@@ -1,3 +1,9 @@
+pplug-volumepulse (1.5) trixie; urgency=medium
+
+  * Correct text in error dialog
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 11 Nov 2025 14:32:34 +0000
+
 pplug-volumepulse (1.4) trixie; urgency=medium
 
   * Close popup on button press

@@ -553,7 +553,7 @@ void bluetooth_set_input (VolumePulsePlugin *vol, const char *name, const char *
         else
         {
             bt_connect_dialog_show (vol, "");
-            bt_connect_dialog_update (vol, _("Could not set device as output"));
+            bt_connect_dialog_update (vol, _("Could not set device as input"));
         }
         g_free (pacard);
     }
