@@ -227,7 +227,6 @@ static void pa_cb_state (pa_context *pacontext, void *userdata)
 
 void pulse_terminate (VolumePulsePlugin *vol)
 {
-    if (vol->pa_idle_timer) g_source_remove (vol->pa_idle_timer);
     if (vol->pa_mainloop != NULL)
     {
         /* Disconnect the controller context */
@@ -243,7 +242,10 @@ void pulse_terminate (VolumePulsePlugin *vol)
         /* Terminate the control loop */
         pa_threaded_mainloop_stop (vol->pa_mainloop);
         pa_threaded_mainloop_free (vol->pa_mainloop);
+        vol->pa_mainloop = NULL;
     }
+    if (vol->pa_idle_timer) g_source_remove (vol->pa_idle_timer);
+    vol->pa_idle_timer = 0;
 }
 
 /* Handler for unrecoverable errors - terminates the controller */
@@ -312,15 +314,22 @@ static void pa_cb_subscription (pa_context *, pa_subscription_event_type_t event
     pa_threaded_mainloop_signal (vol->pa_mainloop, 0);
 }
 
-/* Function to update display called when idle after a notification - needs not to be in main loop  */
+/* Function to update display called when idle after a notification.
+ *
+ * Run on the GMainLoop thread using
+ *   vol->pa_idle_timer = g_idle_add (pa_update_disp_cb, vol);
+ */
 
 static gboolean pa_update_disp_cb (gpointer userdata)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) userdata;
 
+    pa_threaded_mainloop_lock (vol->pa_mainloop);
     vol->pa_idle_timer = 0;
+    pa_threaded_mainloop_unlock (vol->pa_mainloop);
+
     volumepulse_update_display (vol);
-    return FALSE;
+    return G_SOURCE_REMOVE;
 }
 
 /* Callback for PulseAudio operations which report success/fail */
