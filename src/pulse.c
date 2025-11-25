@@ -309,7 +309,7 @@ static void pa_cb_subscription (pa_context *, pa_subscription_event_type_t event
 #endif
     if (vol->bt_card_found == FALSE && newcard) vol->bt_card_found = TRUE;
 
-    vol->pa_idle_timer = g_idle_add (pa_update_disp_cb, vol);
+    if (vol->pa_idle_timer == 0) vol->pa_idle_timer = g_idle_add (pa_update_disp_cb, vol);
 
     pa_threaded_mainloop_signal (vol->pa_mainloop, 0);
 }
