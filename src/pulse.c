@@ -314,11 +314,7 @@ static void pa_cb_subscription (pa_context *, pa_subscription_event_type_t event
     pa_threaded_mainloop_signal (vol->pa_mainloop, 0);
 }
 
-/* Function to update display called when idle after a notification.
- *
- * Run on the GMainLoop thread using
- *   vol->pa_idle_timer = g_idle_add (pa_update_disp_cb, vol);
- */
+/* Function to update display called when idle after a notification - needs not to be in main loop  */
 
 static gboolean pa_update_disp_cb (gpointer userdata)
 {
@@ -329,7 +325,7 @@ static gboolean pa_update_disp_cb (gpointer userdata)
     pa_threaded_mainloop_unlock (vol->pa_mainloop);
 
     volumepulse_update_display (vol);
-    return G_SOURCE_REMOVE;
+    return FALSE;
 }
 
 /* Callback for PulseAudio operations which report success/fail */

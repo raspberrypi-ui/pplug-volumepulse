@@ -1,3 +1,9 @@
+pplug-volumepulse (1.6) trixie; urgency=medium
+
+  * Prevent multiple calls to pa_update_disp_cb
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 28 Nov 2025 10:17:35 +0000
+
 pplug-volumepulse (1.5) trixie; urgency=medium
 
   * Correct text in error dialog
