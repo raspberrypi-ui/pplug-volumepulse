@@ -1,3 +1,9 @@
+pplug-volumepulse (1.10) trixie; urgency=medium
+
+  * Fix memory leak in update_display
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 12 May 2026 08:04:50 +0100
+
 pplug-volumepulse (1.9) trixie; urgency=medium
 
   * Close popup on escape key; add up/down key support in popup

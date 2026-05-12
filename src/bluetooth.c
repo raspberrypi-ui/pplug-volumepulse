@@ -664,15 +664,18 @@ void bluetooth_add_devices_to_profile_dialog (VolumePulsePlugin *vol)
 
 int bluetooth_count_devices (VolumePulsePlugin *vol, gboolean input)
 {
+    GList *obj, *iface;
     int count = 0;
     if (vol->bt_objmanager)
     {
         // iterate all the objects the manager knows about
         GList *objects = g_dbus_object_manager_get_objects (vol->bt_objmanager);
+        obj = objects;
         while (objects != NULL)
         {
             GDBusObject *object = (GDBusObject *) objects->data;
             GList *interfaces = g_dbus_object_get_interfaces (object);
+            iface = interfaces;
             while (interfaces != NULL)
             {
                 // if an object has a Device1 interface, it is a Bluetooth device - add it to the list
@@ -695,8 +698,10 @@ int bluetooth_count_devices (VolumePulsePlugin *vol, gboolean input)
                 }
                 interfaces = interfaces->next;
             }
+            g_list_free_full (iface, g_object_unref);
             objects = objects->next;
         }
+        g_list_free_full (obj, g_object_unref);
     }
     return count;
 }

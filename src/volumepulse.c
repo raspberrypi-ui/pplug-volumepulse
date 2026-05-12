@@ -410,6 +410,13 @@ void volumepulse_destructor (gpointer user_data)
     if (vol->gesture[1]) g_object_unref (vol->gesture[1]);
 #endif
 
+    g_free (vol->pa_default_sink);
+    g_free (vol->pa_default_source);
+    g_free (vol->pa_profile);
+    g_free (vol->pa_error_msg);
+    g_free (vol->hdmi_names[0]);
+    g_free (vol->hdmi_names[1]);
+
     g_free (vol);
 }
 
