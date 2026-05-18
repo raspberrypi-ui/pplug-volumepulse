@@ -1,3 +1,9 @@
+pplug-volumepulse (1.11) trixie; urgency=medium
+
+  * Add Polish translation
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 18 May 2026 11:45:16 +0100
+
 pplug-volumepulse (1.10) trixie; urgency=medium
 
   * Fix memory leak in update_display
