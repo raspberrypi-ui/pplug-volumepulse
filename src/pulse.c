@@ -975,6 +975,9 @@ static void pa_replace_card_with_sink_on_match (GtkWidget *widget, gpointer data
 {
     pa_sink_info *i = (pa_sink_info *) data;
     const char *dev = pa_proplist_gets (i->proplist, "alsa.card");
+    const char *type = pa_proplist_gets (i->proplist, "media.class");
+
+    if (!strstr (type, "Sink")) return;
 
     if (!strcmp (dev, gtk_widget_get_name (widget)))
     {
@@ -1036,6 +1039,9 @@ static void pa_replace_card_with_source_on_match (GtkWidget *widget, gpointer da
 {
     pa_source_info *i = (pa_source_info *) data;
     const char *dev = pa_proplist_gets (i->proplist, "alsa.card");
+    const char *type = pa_proplist_gets (i->proplist, "media.class");
+
+    if (!strstr (type, "Source")) return;
 
     if (!strcmp (dev, gtk_widget_get_name (widget)))
     {
