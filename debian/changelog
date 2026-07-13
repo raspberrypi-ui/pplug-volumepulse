@@ -1,3 +1,9 @@
+pplug-volumepulse (1.14) trixie; urgency=medium
+
+  * New XML
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 13 Jul 2026 16:06:14 +0100
+
 pplug-volumepulse (1.13) trixie; urgency=medium
 
   * Set widget name to assist in debugging

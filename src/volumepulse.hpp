@@ -36,7 +36,7 @@ extern "C" {
 #include "volumepulse.h"
 }
 
-class WayfireVolumepulse : public WayfireWidget
+class WidgetVolumepulse : public PanelWidget
 {
     std::unique_ptr <Gtk::HBox> plugin;
 
@@ -49,7 +49,7 @@ class WayfireVolumepulse : public WayfireWidget
 
     void init (Gtk::HBox *container) override;
     void command (const char *cmd) override;
-    virtual ~WayfireVolumepulse ();
+    virtual ~WidgetVolumepulse ();
     bool set_icon (void);
 };
 

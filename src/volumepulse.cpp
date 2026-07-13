@@ -30,26 +30,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "volumepulse.hpp"
 
 extern "C" {
-    WayfireWidget *create () { return new WayfireVolumepulse; }
-    void destroy (WayfireWidget *w) { delete w; }
+    PanelWidget *create () { return new WidgetVolumepulse; }
+    void destroy (PanelWidget *w) { delete w; }
 
     const conf_table_t *config_params (void) { return conf_table; };
     const char *display_name (void) { return PLUGIN_TITLE; };
     const char *package_name (void) { return GETTEXT_PACKAGE; };
 }
 
-void WayfireVolumepulse::command (const char *cmd)
+void WidgetVolumepulse::command (const char *cmd)
 {
     volumepulse_control_msg (vol, cmd);
 }
 
-bool WayfireVolumepulse::set_icon (void)
+bool WidgetVolumepulse::set_icon (void)
 {
     volumepulse_update_display (vol);
     return false;
 }
 
-void WayfireVolumepulse::init (Gtk::HBox *container)
+void WidgetVolumepulse::init (Gtk::HBox *container)
 {
     /* Create the button */
     plugin = std::make_unique <Gtk::HBox> ();
@@ -59,13 +59,13 @@ void WayfireVolumepulse::init (Gtk::HBox *container)
     /* Setup structure */
     vol = g_new0 (VolumePulsePlugin, 1);
     vol->plugin = (GtkWidget *)((*plugin).gobj());
-    icon_timer = Glib::signal_idle().connect (sigc::mem_fun (*this, &WayfireVolumepulse::set_icon));
+    icon_timer = Glib::signal_idle().connect (sigc::mem_fun (*this, &WidgetVolumepulse::set_icon));
 
     /* Initialise the plugin */
     volumepulse_init (vol);
 }
 
-WayfireVolumepulse::~WayfireVolumepulse()
+WidgetVolumepulse::~WidgetVolumepulse()
 {
     icon_timer.disconnect ();
     volumepulse_destructor (vol);
