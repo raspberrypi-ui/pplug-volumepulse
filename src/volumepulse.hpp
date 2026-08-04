@@ -38,18 +38,16 @@ extern "C" {
 
 class WidgetVolumepulse : public PanelWidget
 {
-    std::unique_ptr <Gtk::HBox> plugin;
-
-    sigc::connection icon_timer;
-
-    /* plugin */
     VolumePulsePlugin *vol;
+
+    std::unique_ptr <Gtk::HBox> plugin;
+    sigc::connection icon_timer;
 
   public:
 
     void init (Gtk::HBox *container) override;
-    void command (const char *cmd) override;
     virtual ~WidgetVolumepulse ();
+    void command (const char *cmd) override;
     bool set_icon (void);
 };
 

@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*----------------------------------------------------------------------------*/
 
 conf_table_t conf_table[1] = {
-    {CONF_TYPE_NONE, NULL, NULL, NULL}
+    {CONF_TYPE_NONE, NULL, NULL, NULL, NULL}
 };
 
 /*----------------------------------------------------------------------------*/
