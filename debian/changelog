@@ -1,3 +1,9 @@
+pplug-volumepulse (1.16) trixie; urgency=medium
+
+  * Modify for latest plugin architecture
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 07 Aug 2026 10:21:57 +0100
+
 pplug-volumepulse (1.15) trixie; urgency=medium
 
   * Remove WfOptions

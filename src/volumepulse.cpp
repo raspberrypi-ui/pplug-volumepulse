@@ -38,18 +38,17 @@ extern "C" {
     const char *package_name (void) { return GETTEXT_PACKAGE; };
 }
 
-void WidgetVolumepulse::command (const char *cmd)
+void WidgetVolumepulse::widget_command (const char *cmd)
 {
     volumepulse_control_msg (vol, cmd);
 }
 
-bool WidgetVolumepulse::set_icon (void)
+void WidgetVolumepulse::widget_set_icon (void)
 {
     volumepulse_update_display (vol);
-    return false;
 }
 
-void WidgetVolumepulse::init (Gtk::HBox *container)
+void WidgetVolumepulse::widget_init (Gtk::HBox *container)
 {
     /* Create the button */
     plugin = std::make_unique <Gtk::HBox> ();
@@ -59,7 +58,6 @@ void WidgetVolumepulse::init (Gtk::HBox *container)
     /* Setup structure */
     vol = g_new0 (VolumePulsePlugin, 1);
     vol->plugin = (GtkWidget *)((*plugin).gobj());
-    icon_timer = Glib::signal_idle().connect (sigc::mem_fun (*this, &WidgetVolumepulse::set_icon));
 
     /* Initialise the plugin */
     volumepulse_init (vol);
@@ -67,7 +65,6 @@ void WidgetVolumepulse::init (Gtk::HBox *container)
 
 WidgetVolumepulse::~WidgetVolumepulse()
 {
-    icon_timer.disconnect ();
     volumepulse_destructor (vol);
 }
 
