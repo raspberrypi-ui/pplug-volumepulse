@@ -27,11 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <pulse/pulseaudio.h>
 
-#ifdef LXPLUG
 #include "plugin.h"
-#else
-#include "lxutils.h"
-#endif
 
 #include "volumepulse.h"
 #include "commongui.h"

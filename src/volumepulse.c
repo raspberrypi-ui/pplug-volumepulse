@@ -29,11 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib/gi18n.h>
 #include <pulse/pulseaudio.h>
 
-#ifdef LXPLUG
 #include "plugin.h"
-#else
-#include "lxutils.h"
-#endif
 
 #include "volumepulse.h"
 #include "commongui.h"
@@ -58,17 +54,14 @@ conf_table_t conf_table[1] = {
 
 static int get_value (const char *fmt, ...);
 static void hdmi_init (VolumePulsePlugin *vol);
-static gboolean button_release (GtkWidget *, GdkEventButton *event, VolumePulsePlugin *vol, gboolean input);
-#ifdef LXPLUG
-static gboolean volumepulse_button_press_event (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol);
-static gboolean micpulse_button_press_event (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol);
-#else
-static gboolean volmic_button_press (GtkWidget *, GdkEventButton *, VolumePulsePlugin *vol);
-static gboolean volumepulse_button_release (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol);
-static gboolean micpulse_button_release (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol);
+static void button_clicked (VolumePulsePlugin *vol, gboolean input);
+static void vol_button_clicked (GtkWidget *, gpointer data);
+static void mic_button_clicked (GtkWidget *, gpointer data);
+static gboolean button_pressed (GdkEventButton *event, VolumePulsePlugin *vol, gboolean input);
+static gboolean vol_button_pressed (GtkWidget *, GdkEventButton *event, gpointer data);
+static gboolean mic_button_pressed (GtkWidget *, GdkEventButton *event, gpointer data);
 static void vol_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data);
 static void mic_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data);
-#endif
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -99,13 +92,8 @@ static void hdmi_init (VolumePulsePlugin *vol)
 {
     int i, m;
 
-#ifdef LXPLUG
-    /* check xrandr for connected monitors */
-    m = get_value ("xrandr -q | grep -c connected");
-#else
-    /* check wlr-randr for connected monitors */
-    m = get_value ("wlr-randr | grep -c ^[^[:space:]]");
-#endif
+    /* check for connected monitors */
+    m = get_value (HDMI_NUM_DEVICES);
     if (m < 0) m = 1; /* couldn't read, so assume 1... */
     if (m > 2) m = 2;
 
@@ -118,15 +106,8 @@ static void hdmi_init (VolumePulsePlugin *vol)
     /* get the names */
     if (m == 2)
     {
-#ifdef LXPLUG
-        for (i = 0; i < 2; i++)
-        {
-            vol->hdmi_names[i] = get_string ("xrandr --listmonitors | grep %d: | cut -d ' ' -f 6", i);
-        }
-#else
-        vol->hdmi_names[0] = get_string ("wlr-randr | grep  ^[^[:space:]] | sort | head -n 1 | cut -d ' ' -f 1");
-        vol->hdmi_names[1] = get_string ("wlr-randr | grep  ^[^[:space:]] | sort | tail -n 1 | cut -d ' ' -f 1");
-#endif
+        vol->hdmi_names[0] = get_string (HDMI_DEVICE_0);
+        vol->hdmi_names[1] = get_string (HDMI_DEVICE_1);
 
         /* check both devices are HDMI */
         if (vol->hdmi_names[0] && !strncmp (vol->hdmi_names[0], "HDMI", 4)
@@ -167,22 +148,33 @@ gboolean check_pipewire (gpointer data)
 /*----------------------------------------------------------------------------*/
 
 /* Handler for button click */
-static gboolean button_release (GtkWidget *, GdkEventButton *event, VolumePulsePlugin *vol, gboolean input)
+static void button_clicked (VolumePulsePlugin *vol, gboolean input)
 {
-#ifndef LXPLUG
-    if (pressed == PRESS_LONG) return FALSE;
-#endif
+    CHECK_LONGPRESS
+    if (vol->popup_window[0] || vol->popup_window[1]) close_popup ();
+    else popup_window_show (vol, input);
 
+    update_display (vol, input);
+}
+
+static void vol_button_clicked (GtkWidget *, gpointer data)
+{
+    VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
+    button_clicked (vol, FALSE);
+}
+
+static void mic_button_clicked (GtkWidget *, gpointer data)
+{
+    VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
+    button_clicked (vol, TRUE);
+}
+
+/* Handler for button press */
+static gboolean button_pressed (GdkEventButton *event, VolumePulsePlugin *vol, gboolean input)
+{
     switch (event->button)
     {
-        case 1: /* left-click - show volume popup */
-#ifdef LXPLUG
-                popup_window_show (vol, input);
-#else
-                if (!vol->popup_shown) popup_window_show (vol, input);
-                else close_popup ();
-#endif
-                update_display (vol, input);
+        case 1: /* handled as a click - ignore here */
                 return FALSE;
 
         case 2: /* middle-click - toggle mute */
@@ -191,7 +183,6 @@ static gboolean button_release (GtkWidget *, GdkEventButton *event, VolumePulseP
 
         case 3: /* right-click - show device list */
                 menu_show (vol, input);
-                wrap_show_menu (vol->button[input ? 1 : 0], vol->menu_devices[input ? 1 : 0]);
                 break;
     }
 
@@ -199,46 +190,32 @@ static gboolean button_release (GtkWidget *, GdkEventButton *event, VolumePulseP
     return TRUE;
 }
 
-#ifndef LXPLUG
-static gboolean volmic_button_press (GtkWidget *, GdkEventButton *, VolumePulsePlugin *vol)
+static gboolean vol_button_pressed (GtkWidget *, GdkEventButton *event, gpointer data)
 {
-    pressed = PRESS_NONE;
-    if (vol->popup_window[0] || vol->popup_window[1]) vol->popup_shown = TRUE;
-    else vol->popup_shown = FALSE;
-    return FALSE;
+    VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
+    return button_pressed (event, vol, FALSE);
 }
 
-static gboolean volumepulse_button_release (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol)
+static gboolean mic_button_pressed (GtkWidget *, GdkEventButton *event, gpointer data)
 {
-    return button_release (widget, event, vol, FALSE);
-}
-
-static gboolean micpulse_button_release (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol)
-{
-    return button_release (widget, event, vol, TRUE);
+    VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
+    return button_pressed (event, vol, TRUE);
 }
 
 /* Handler for long-press gesture */
 static void vol_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
-    if (pressed == PRESS_LONG)
-    {
-        menu_show (vol, FALSE);
-        wrap_show_menu (vol->button[0], vol->menu_devices[0]);
-    }
+    NOTLONG_EXIT
+    menu_show (vol, FALSE);
 }
 
 static void mic_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
-    if (pressed == PRESS_LONG)
-    {
-        menu_show (vol, TRUE);
-        wrap_show_menu (vol->button[1], vol->menu_devices[1]);
-    }
+    NOTLONG_EXIT
+    menu_show (vol, TRUE);
 }
-#endif
 
 /* Handler for system config changed message from panel */
 void volumepulse_update_display (VolumePulsePlugin *vol)
@@ -312,6 +289,7 @@ gboolean volumepulse_control_msg (VolumePulsePlugin *vol, const char *cmd)
     return FALSE;
 }
 
+
 void volumepulse_init (VolumePulsePlugin *vol)
 {
     setlocale (LC_ALL, "");
@@ -342,19 +320,13 @@ void volumepulse_init (VolumePulsePlugin *vol)
     g_signal_connect (vol->button[1], "scroll-event", G_CALLBACK (micpulse_mouse_scrolled), vol);
     gtk_widget_add_events (vol->button[1], GDK_SCROLL_MASK);
 
-#ifdef LXPLUG
-    g_signal_connect (vol->button[0], "button-press-event", G_CALLBACK (volumepulse_button_press_event), vol);
-    g_signal_connect (vol->button[1], "button-press-event", G_CALLBACK (micpulse_button_press_event), vol);
-#else
-    g_signal_connect (vol->button[0], "button-press-event", G_CALLBACK (volmic_button_press), vol);
-    g_signal_connect (vol->button[1], "button-press-event", G_CALLBACK (volmic_button_press), vol);
+    g_signal_connect (vol->button[0], "clicked", G_CALLBACK (vol_button_clicked), vol);
+    g_signal_connect (vol->button[1], "clicked", G_CALLBACK (mic_button_clicked), vol);
+    g_signal_connect (vol->button[0], "button-press-event", G_CALLBACK (vol_button_pressed), vol);
+    g_signal_connect (vol->button[1], "button-press-event", G_CALLBACK (mic_button_pressed), vol);
 
-    g_signal_connect (vol->button[0], "button-release-event", G_CALLBACK (volumepulse_button_release), vol);
-    g_signal_connect (vol->button[1], "button-release-event", G_CALLBACK (micpulse_button_release), vol);
-
-    vol->gesture[0] = add_long_press (vol->button[0], G_CALLBACK (vol_gesture_end), vol);
-    vol->gesture[1] = add_long_press (vol->button[1], G_CALLBACK (mic_gesture_end), vol);
-#endif
+    wrap_add_longpress (vol->gesture[0], vol->button[0], G_CALLBACK (vol_gesture_end), vol);
+    wrap_add_longpress (vol->gesture[1], vol->button[1], G_CALLBACK (mic_gesture_end), vol);
 
     /* Set up variables */
     vol->menu_devices[0] = NULL;
@@ -391,24 +363,18 @@ void volumepulse_destructor (gpointer user_data)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) user_data;
 
+    close_popup ();
+
     close_widget (&vol->profiles_dialog);
     close_widget (&vol->conn_dialog);
     close_widget (&vol->menu_devices[0]);
     close_widget (&vol->menu_devices[1]);
-#ifdef LXPLUG
-    close_widget (&vol->popup_window[0]);
-    close_widget (&vol->popup_window[1]);
-#else
-    close_popup ();
-#endif
 
     bluetooth_terminate (vol);
     pulse_terminate (vol);
 
-#ifndef LXPLUG
-    if (vol->gesture[0]) g_object_unref (vol->gesture[0]);
-    if (vol->gesture[1]) g_object_unref (vol->gesture[1]);
-#endif
+    wrap_free_gesture (vol->gesture[0]);
+    wrap_free_gesture (vol->gesture[1]);
 
     g_free (vol->pa_default_sink);
     g_free (vol->pa_default_source);
@@ -419,80 +385,6 @@ void volumepulse_destructor (gpointer user_data)
 
     g_free (vol);
 }
-
-/*----------------------------------------------------------------------------*/
-/* LXPanel plugin functions                                                   */
-/*----------------------------------------------------------------------------*/
-#ifdef LXPLUG
-
-/* Constructor */
-static GtkWidget *volumepulse_constructor (LXPanel *panel, config_setting_t *settings)
-{
-    /* Allocate and initialize plugin context */
-    VolumePulsePlugin *vol = g_new0 (VolumePulsePlugin, 1);
-
-    /* Allocate top level widget and set into plugin widget pointer */
-    vol->panel = panel;
-    vol->settings = settings;
-    vol->plugin = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-    lxpanel_plugin_set_data (vol->plugin, vol, volumepulse_destructor);
-
-    volumepulse_init (vol);
-
-    return vol->plugin;
-}
-
-/* Handler for button press */
-static gboolean volumepulse_button_press_event (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol)
-{
-    close_widget (&vol->popup_window[1]);
-    if (vol->popup_window[0])
-    {
-        close_widget (&vol->popup_window[0]);
-        return TRUE;
-    }
-    else return button_release (widget, event, vol, FALSE);
-}
-
-static gboolean micpulse_button_press_event (GtkWidget *widget, GdkEventButton *event, VolumePulsePlugin *vol)
-{
-    close_widget (&vol->popup_window[0]);
-    if (vol->popup_window[1])
-    {
-        close_widget (&vol->popup_window[1]);
-        return TRUE;
-    }
-    else return button_release (widget, event, vol, TRUE);
-}
-
-/* Handler for system config changed message from panel */
-static void volumepulse_configuration_changed (LXPanel *, GtkWidget *plugin)
-{
-    VolumePulsePlugin *vol = lxpanel_plugin_get_data (plugin);
-    volumepulse_update_display (vol);
-}
-
-/* Handler for control message */
-static gboolean volumepulse_control (GtkWidget *plugin, const char *cmd)
-{
-    VolumePulsePlugin *vol = lxpanel_plugin_get_data (plugin);
-    return volumepulse_control_msg (vol, cmd);
-}
-
-int module_lxpanel_gtk_version = 1;
-char module_name[] = PLUGIN_NAME;
-
-/* Plugin descriptor */
-LXPanelPluginInit fm_module_init_lxpanel_gtk =
-{
-    .name = PLUGIN_TITLE,
-    .description = N_("Display and control volume for PulseAudio"),
-    .new_instance = volumepulse_constructor,
-    .reconfigure = volumepulse_configuration_changed,
-    .control = volumepulse_control,
-    .gettext_package = GETTEXT_PACKAGE
-};
-#endif
 
 /* End of file */
 /*----------------------------------------------------------------------------*/

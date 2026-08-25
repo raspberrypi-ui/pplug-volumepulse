@@ -1,5 +1,5 @@
 /*============================================================================
-Copyright (c) 2024 Raspberry Pi
+Copyright (c) 2020-2025 Raspberry Pi
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -25,32 +25,62 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ============================================================================*/
 
-#ifndef WIDGETS_VOLUMEPULSE_HPP
-#define WIDGETS_VOLUMEPULSE_HPP
+#include <locale.h>
+#include <glib/gi18n.h>
+#include <pulse/pulseaudio.h>
 
-#include <widget.hpp>
-#include <gtkmm/box.h>
-
-extern "C" {
 #include "plugin.h"
+
 #include "volumepulse.h"
+
+/*----------------------------------------------------------------------------*/
+/* LXPanel plugin functions                                                   */
+/*----------------------------------------------------------------------------*/
+
+/* Constructor */
+static GtkWidget *volumepulse_constructor (LXPanel *panel, config_setting_t *settings)
+{
+    /* Allocate and initialize plugin context */
+    VolumePulsePlugin *vol = g_new0 (VolumePulsePlugin, 1);
+
+    /* Allocate top level widget and set into plugin widget pointer */
+    vol->panel = panel;
+    vol->settings = settings;
+    vol->plugin = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    lxpanel_plugin_set_data (vol->plugin, vol, volumepulse_destructor);
+
+    volumepulse_init (vol);
+
+    return vol->plugin;
 }
 
-class WidgetVolumepulse : public PanelWidget
+/* Handler for system config changed message from panel */
+static void volumepulse_configuration_changed (LXPanel *, GtkWidget *plugin)
 {
-    VolumePulsePlugin *vol;
+    VolumePulsePlugin *vol = lxpanel_plugin_get_data (plugin);
+    volumepulse_update_display (vol);
+}
 
-    std::unique_ptr <Gtk::HBox> plugin;
+/* Handler for control message */
+static gboolean volumepulse_control (GtkWidget *plugin, const char *cmd)
+{
+    VolumePulsePlugin *vol = lxpanel_plugin_get_data (plugin);
+    return volumepulse_control_msg (vol, cmd);
+}
 
-  public:
+int module_lxpanel_gtk_version = 1;
+char module_name[] = PLUGIN_NAME;
 
-    void widget_init (Gtk::HBox *container) override;
-    virtual ~WidgetVolumepulse ();
-    void widget_command (const char *cmd) override;
-    void widget_set_icon (void);
+/* Plugin descriptor */
+LXPanelPluginInit fm_module_init_lxpanel_gtk =
+{
+    .name = PLUGIN_TITLE,
+    .description = N_("Display and control volume for PulseAudio"),
+    .new_instance = volumepulse_constructor,
+    .reconfigure = volumepulse_configuration_changed,
+    .control = volumepulse_control,
+    .gettext_package = GETTEXT_PACKAGE
 };
-
-#endif /* end of include guard: WIDGETS_VOLUMEPULSE_HPP */
 
 /* End of file */
 /*----------------------------------------------------------------------------*/

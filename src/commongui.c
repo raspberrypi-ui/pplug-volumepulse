@@ -29,11 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib/gprintf.h>
 #include <pulse/pulseaudio.h>
 
-#ifdef LXPLUG
 #include "plugin.h"
-#else
-#include "lxutils.h"
-#endif
 
 #include "volumepulse.h"
 #include "pulse.h"
@@ -312,20 +308,15 @@ void popup_window_show (VolumePulsePlugin *vol, gboolean input_control)
 
 static gboolean hide_popup (VolumePulsePlugin *vol)
 {
-#ifdef LXPLUG
-    close_widget (&vol->popup_window[0]);
-#else
     close_popup ();
-#endif
     vol->popup_timer = 0;
     return FALSE;
 }
 
 void popup_window_show_timed (VolumePulsePlugin *vol)
 {
-#ifdef LXPLUG
-    close_widget (&vol->popup_window[1]);
-#endif
+    if (vol->popup_window[1]) close_popup ();
+
     if (!vol->popup_window[0])
     {
         popup_window_show (vol, FALSE);
@@ -342,12 +333,7 @@ static gboolean popup_window_keypress_vol (GtkWidget *, GdkEventKey *event, Volu
 {
     switch (event->keyval)
     {
-        case GDK_KEY_Escape :
-#ifdef LXPLUG
-                                close_widget (&vol->popup_window[0]);
-#else
-                                close_popup ();
-#endif
+        case GDK_KEY_Escape :   close_popup ();
                                 return TRUE;
 
         case GDK_KEY_Up :
@@ -362,12 +348,7 @@ static gboolean popup_window_keypress_mic (GtkWidget *, GdkEventKey *event, Volu
 {
     switch (event->keyval)
     {
-        case GDK_KEY_Escape :
-#ifdef LXPLUG
-                                close_widget (&vol->popup_window[1]);
-#else
-                                close_popup ();
-#endif
+        case GDK_KEY_Escape :   close_popup ();
                                 return TRUE;
 
         case GDK_KEY_Up :
@@ -453,6 +434,7 @@ void menu_show (VolumePulsePlugin *vol, gboolean input)
 
     // show the menu
     gtk_widget_show_all (vol->menu_devices[input ? 1 : 0]);
+    wrap_show_menu (vol->button[input ? 1 : 0], vol->menu_devices[input ? 1 : 0]);
 }
 
 /* Create the device select menu */
