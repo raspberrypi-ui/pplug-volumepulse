@@ -206,14 +206,14 @@ static gboolean mic_button_pressed (GtkWidget *, GdkEventButton *event, gpointer
 static void vol_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
-    NOTLONG_EXIT
+    if (!LONGPRESS) return;
     menu_show (vol, FALSE);
 }
 
 static void mic_gesture_end (GtkGestureLongPress *, GdkEventSequence *, gpointer data)
 {
     VolumePulsePlugin *vol = (VolumePulsePlugin *) data;
-    NOTLONG_EXIT
+    if (!LONGPRESS) return;
     menu_show (vol, TRUE);
 }
 
