@@ -40,16 +40,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 typedef struct 
 {
-    GtkWidget *plugin;                     /* Box to hold both plugin widgets */
+    GtkWidget *plugin;                  /* Box to hold both plugin widgets */
     GtkWidget *button[2];
-
-#ifdef LXPLUG
-    LXPanel *panel;                     /* Back pointer to panel */
-    config_setting_t *settings;         /* Plugin settings */
-#else
     GtkGesture *gesture[2];
-#endif
-
     gboolean wizard;                    /* Used in wizard? */
     int pipewire;                       /* Pipewire running? */
     gboolean popup_shown;
@@ -99,6 +92,7 @@ typedef struct
     int bt_retry_count;                 /* Counter for polling read of profile on connection */
     guint bt_retry_timer;               /* Timer for retrying post-connection events */
     gboolean bt_card_found;
+	LXPLUG_VARS
 } VolumePulsePlugin;
 
 extern conf_table_t conf_table[1];
