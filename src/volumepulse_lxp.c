@@ -72,14 +72,13 @@ int module_lxpanel_gtk_version = 1;
 char module_name[] = PLUGIN_NAME;
 
 /* Plugin descriptor */
-LXPanelPluginInit fm_module_init_lxpanel_gtk =
-{
+LXPanelPluginInit fm_module_init_lxpanel_gtk = {
     .name = PLUGIN_TITLE,
+    .gettext_package = GETTEXT_PACKAGE,
     .description = N_("Display and control volume for PulseAudio"),
     .new_instance = volumepulse_constructor,
     .reconfigure = volumepulse_configuration_changed,
-    .control = volumepulse_control,
-    .gettext_package = GETTEXT_PACKAGE
+    .control = volumepulse_control
 };
 
 /* End of file */
