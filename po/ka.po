@@ -1,0 +1,162 @@
+# Georgian translation for lpplug_volumepulse.
+# Copyright (C) 2026 lpplug_volumepulse's authors.
+# This file is distributed under the same license as the lpplug_volumepulse package.
+# Ekaterine Papava <papava.e@gtu.ge>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: lpplug_volumepulse\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-17 08:37+0200\n"
+"PO-Revision-Date: 2026-08-29 18:54+0200\n"
+"Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
+"Language-Team: Georgian <(nothing)>\n"
+"Language: ka\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/bluetooth.c:188 src/bluetooth.c:348
+#, c-format
+msgid "Bluetooth %s device not found"
+msgstr "ბლუთუზის %s მოწყობილობა აღმოჩენილი არაა"
+
+#. update dialog to show a warning
+#: src/bluetooth.c:239
+msgid "Audio device not found"
+msgstr "აუდიომოწყობილობა აღმოჩენილი არაა"
+
+#: src/bluetooth.c:255
+#, c-format
+msgid "Could not set profile for device : %s"
+msgstr "პროფილის დაყენება შეუძლებელია მოწყობილობისთვის : %s"
+
+#: src/bluetooth.c:299
+#, c-format
+msgid "Could not change %s to device : %s"
+msgstr "%s-ის შეცვლა შეუძლებელია მოწყობილობაზე : %s"
+
+#: src/bluetooth.c:415
+#, c-format
+msgid "Failed to connect to Bluetooth device - %s"
+msgstr "ბლუთუზის მოწყობილობასთან დაკავშირება შეუძლებელია - %s"
+
+#: src/bluetooth.c:509
+msgid "Could not set device as output"
+msgstr "მოწყობილობის გამოსატან მოწყობილობად დაყენება შეუძლებელია"
+
+#: src/bluetooth.c:515
+#, c-format
+msgid "Connecting Bluetooth device '%s' as output..."
+msgstr "ბლუთუზი მოწყობილობის '%s' გამოტანად დაყენება..."
+
+#: src/bluetooth.c:556
+msgid "Could not set device as input"
+msgstr "მოწყობილობის შეყვანის მოწყობილობად დაყენება შეუძლებელია"
+
+#: src/bluetooth.c:562
+#, c-format
+msgid "Connecting Bluetooth device '%s' as input..."
+msgstr "ბლუთუზი მოწყობილობის '%s' შეყვანად დაყენება..."
+
+#: src/commongui.c:146
+msgid "AV Jack"
+msgstr "AV ჯეკი"
+
+#. update tooltip
+#: src/commongui.c:209
+msgid "Mic volume"
+msgstr "მიკროფონის ხმის დონე"
+
+#: src/commongui.c:209
+msgid "Volume control"
+msgstr "ხმის კონტროლი"
+
+#. Create a check button as the child of the vertical box.
+#: src/commongui.c:302
+msgid "Mute"
+msgstr "დადუმება"
+
+#: src/commongui.c:491
+msgid "No audio devices found"
+msgstr "მოწყობილობები აღმოჩენილი არაა"
+
+#: src/commongui.c:506
+msgid "Device Profiles..."
+msgstr "მოწყობილობის პროფილები..."
+
+#: src/commongui.c:542
+msgid "Input from this device not available in the current profile"
+msgstr "ამ მოწყობილობიდან შეყვანა მიმდინარე პროფილში ხელმისაწვდომი არაა"
+
+#: src/commongui.c:547
+msgid "Output to this device not available in the current profile"
+msgstr "ამ მოწყობილობიდან გამოტანა მიმდინარე პროფილში ხელმისაწვდომი არაა"
+
+#: src/commongui.c:681
+msgid "Device Profiles"
+msgstr "მოწყობილობის პროფილები"
+
+#: src/commongui.c:707 data/lxplug-volumepulse.ui:73
+msgid "_OK"
+msgstr "_დიახ"
+
+#: src/commongui.c:739
+msgid "Device not connected"
+msgstr "მოწყობილობა მიერთებული არაა"
+
+#: src/volumepulse.c:141
+msgid "HDMI"
+msgstr "HDMI"
+
+#: src/volumepulse.c:489
+msgid "Display and control volume for PulseAudio"
+msgstr "PulseAudio-ის ხმის დონის ჩვენება და მართვა"
+
+#. End of file
+#. ----------------------------------------------------------------------------
+#. ============================================================================
+#. Copyright (c) 2020-2025 Raspberry Pi
+#. All rights reserved.
+#.
+#. Redistribution and use in source and binary forms, with or without
+#. modification, are permitted provided that the following conditions are met:
+#. * Redistributions of source code must retain the above copyright
+#. notice, this list of conditions and the following disclaimer.
+#. * Redistributions in binary form must reproduce the above copyright
+#. notice, this list of conditions and the following disclaimer in the
+#. documentation and/or other materials provided with the distribution.
+#. * Neither the name of the copyright holder nor the
+#. names of its contributors may be used to endorse or promote products
+#. derived from this software without specific prior written permission.
+#.
+#. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+#. ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+#. WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+#. DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY
+#. DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+#. (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+#. LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+#. ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+#. (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+#. SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#. ============================================================================
+#. ----------------------------------------------------------------------------
+#. Typedefs and macros
+#. ----------------------------------------------------------------------------
+#: src/volumepulse.h:32
+msgid "Volume"
+msgstr "ხმის სიმაღლე"
+
+#: data/lxplug-volumepulse.ui:31
+msgid "label"
+msgstr "ჭდე"
+
+#: data/lxplug-volumepulse.ui:58
+msgid "_Cancel"
+msgstr "გაუ_ქმება"
+
+#: data/lxplug-volumepulse.ui:97
+msgid "Connecting..."
+msgstr "დაკავშირება..."
