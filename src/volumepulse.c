@@ -27,7 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <locale.h>
 #include <glib/gi18n.h>
-#include <pulse/pulseaudio.h>
 
 #include "plugin.h"
 

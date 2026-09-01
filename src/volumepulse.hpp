@@ -46,8 +46,8 @@ class WidgetVolumepulse : public PanelWidget
 
     void widget_init (Gtk::HBox *container) override;
     virtual ~WidgetVolumepulse ();
-    void widget_command (const char *cmd) override;
     void widget_set_icon (void);
+    void widget_command (const char *cmd) override;
 };
 
 #endif /* end of include guard: WIDGETS_VOLUMEPULSE_HPP */

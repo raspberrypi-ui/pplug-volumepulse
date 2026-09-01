@@ -26,7 +26,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ============================================================================*/
 
 #include <glibmm.h>
-#include <pulse/pulseaudio.h>
 #include "volumepulse.hpp"
 
 extern "C" {
@@ -38,14 +37,14 @@ extern "C" {
     const char *package_name (void) { return GETTEXT_PACKAGE; };
 }
 
-void WidgetVolumepulse::widget_command (const char *cmd)
-{
-    volumepulse_control_msg (vol, cmd);
-}
-
 void WidgetVolumepulse::widget_set_icon (void)
 {
     volumepulse_update_display (vol);
+}
+
+void WidgetVolumepulse::widget_command (const char *cmd)
+{
+    volumepulse_control_msg (vol, cmd);
 }
 
 void WidgetVolumepulse::widget_init (Gtk::HBox *container)
