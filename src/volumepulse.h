@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*----------------------------------------------------------------------------*/
 
 #define PLUGIN_TITLE N_("Volume")
+#define PLUGIN_DESC N_("Display and control volume for PulseAudio")
 
 #define DEBUG_ON
 #ifdef DEBUG_ON
