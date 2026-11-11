@@ -1,3 +1,9 @@
+pplug-volumepulse (1.21) trixie; urgency=medium
+
+  * Modify for rcn
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 11 Nov 2026 13:27:46 +0000
+
 pplug-volumepulse (1.20) trixie; urgency=medium
 
   * Add tooltip for widget browser
